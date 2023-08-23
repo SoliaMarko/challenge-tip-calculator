@@ -13,9 +13,7 @@ function TipCalculator() {
   const [percentage1, setPercentage1] = useState(0);
   const [percentage2, setPercentage2] = useState(0);
 
-  function handleBill(e) {
-    setBill(e.target.value);
-  }
+  const tip = (bill * (+percentage1 + +percentage2)) / 2 / 100;
 
   function handleReset() {
     setBill(0);
@@ -23,19 +21,19 @@ function TipCalculator() {
 
   return (
     <div>
-      <BillInput bill={bill} handleBill={handleBill}>
-        <p>How much was the bill? </p>
+      <BillInput bill={bill} onSetBill={setBill}>
+        How much was the bill?
       </BillInput>
-      <PercentageInput percents={percentage1} onChange={setPercentage1}>
-        <p>How did you like the service? </p>
+      <PercentageInput percentage={percentage1} onSelect={setPercentage1}>
+        How did you like the service?
       </PercentageInput>
-      <PercentageInput percents={percentage2} onChange={setPercentage2}>
-        <p>How did your friend like the service? </p>
+      <PercentageInput percentage={percentage2} onSelect={setPercentage2}>
+        How did your friend like the service?
       </PercentageInput>
       <br />
       {bill && bill > 0 ? (
         <div>
-          <Result bill={bill} percentage={(+percentage1 + +percentage2) / 2} />
+          <Result bill={bill} tip={tip} />
           <br />
           <ResetButton handleReset={handleReset} />
         </div>
@@ -44,10 +42,14 @@ function TipCalculator() {
   );
 }
 
-function BillInput({ children, bill, handleBill }) {
+function BillInput({ children, bill, onSetBill }) {
+  function handleBill(e) {
+    onSetBill(e.target.value);
+  }
+
   return (
-    <div className="input-label">
-      {children}
+    <div>
+      <label>{children}</label>
       <input
         type="number"
         placeholder="Bill value"
@@ -58,11 +60,11 @@ function BillInput({ children, bill, handleBill }) {
   );
 }
 
-function PercentageInput({ children, percents, onChange }) {
+function PercentageInput({ children, percentage, onSelect }) {
   return (
-    <div className="input-label">
-      {children}
-      <select value={percents} onChange={e => onChange(e.target.value)}>
+    <div>
+      <label>{children}</label>
+      <select value={percentage} onChange={e => onSelect(e.target.value)}>
         <option value={0}>Dissatisfied (0%)</option>
         <option value={5}>It was okay (5%)</option>
         <option value={10}>It was good (10%)</option>
@@ -72,9 +74,7 @@ function PercentageInput({ children, percents, onChange }) {
   );
 }
 
-function Result({ bill, percentage }) {
-  const tip = (bill * percentage) / 100;
-
+function Result({ bill, tip }) {
   return (
     <div className="result">
       <p>
