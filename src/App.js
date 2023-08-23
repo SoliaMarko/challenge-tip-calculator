@@ -31,13 +31,13 @@ function TipCalculator() {
         How did your friend like the service?
       </PercentageInput>
       <br />
-      {bill && bill > 0 ? (
-        <div>
+      {bill > 0 && (
+        <>
           <Result bill={bill} tip={tip} />
           <br />
           <ResetButton handleReset={handleReset} />
-        </div>
-      ) : null}
+        </>
+      )}
     </div>
   );
 }
