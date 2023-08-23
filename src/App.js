@@ -17,6 +17,8 @@ function TipCalculator() {
 
   function handleReset() {
     setBill(0);
+    setPercentage1(0);
+    setPercentage2(0);
   }
 
   return (
