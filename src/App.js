@@ -1,6 +1,14 @@
 import { useState } from "react";
 
 function App() {
+  return (
+    <div className="app">
+      <TipCalculator></TipCalculator>
+    </div>
+  );
+}
+
+function TipCalculator() {
   const [bill, setBill] = useState(null);
   const [percentage1, setPercentage1] = useState(0);
   const [percentage2, setPercentage2] = useState(0);
@@ -14,7 +22,7 @@ function App() {
   }
 
   return (
-    <div className="app">
+    <div>
       <BillInput bill={bill} handleBill={handleBill}>
         <p>How much was the bill? </p>
       </BillInput>
